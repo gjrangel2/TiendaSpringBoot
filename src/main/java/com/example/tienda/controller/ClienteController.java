@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*; // Importa anotaciones de Spri
 import java.util.List; // Para manejar listas
 
 @RestController // Combina @Controller y @ResponseBody, indica que esta clase maneja requests y retorna datos directamente en el cuerpo de la respuesta (JSON/XML)
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/clientes") // Mapea todas las solicitudes HTTP que comiencen con "/api/clientes" a este controlador
 public class ClienteController {
 

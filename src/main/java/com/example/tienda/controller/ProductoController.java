@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*; // Anotaciones de Spring Web
 import java.util.List; // Para manejar listas
 
 @RestController // Indica que esta clase es un controlador REST
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/productos") // Mapea las solicitudes que comiencen con "/api/productos"
 public class ProductoController {
 
