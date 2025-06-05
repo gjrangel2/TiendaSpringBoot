@@ -1,5 +1,5 @@
 # Usamos una imagen base de Java que incluye Maven
-FROM maven:3.8.7-openjdk-17-slim AS build
+FROM maven:3.9-openjdk-17 AS build
 
 # Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /app
