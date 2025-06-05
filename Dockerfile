@@ -1,26 +1,34 @@
-# --- Primera etapa: Construcción con Maven y JDK de Alpine ---
-FROM maven:3.9-eclipse-temurin-17-alpine AS build
+# --- Primera etapa: Construcción de la aplicación (con JDK de Alpine) ---
+# Usamos una imagen de OpenJDK 24 para asegurar la compatibilidad con 'release version 24'
+FROM eclipse-temurin:24-jdk-jammy as build
 
-# Establecemos el directorio de trabajo
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiamos los archivos del proyecto
-COPY . .
+# Copia los archivos de configuración de Maven (pom.xml) y descarga las dependencias
+# Esto ayuda a que el proceso de compilación sea más rápido en futuras builds (caching de capas de Docker)
+COPY pom.xml .
+RUN mvn dependency:resolve
+
+# Copia todo el código fuente de la aplicación al directorio de trabajo
+COPY src ./src
 
 # Limpiamos, empaquetamos y construimos el proyecto sin ejecutar tests
+# Aquí es donde se ejecutaba el comando que daba error
 RUN mvn -Dmaven.test.skip=true clean package
 
 # --- Segunda etapa: Imagen final para la aplicación en ejecución (con JRE de Alpine) ---
-FROM eclipse-temurin:17-jre-alpine
+# Usamos una imagen de OpenJDK 24 JRE para el entorno de ejecución ligero
+FROM eclipse-temurin:24-jre-jammy
 
-# Establecemos el directorio de trabajo
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copiamos el JAR construido desde la etapa anterior
-COPY --from=build /app/target/tienda-0.0.1-SNAPSHOT.jar ./app.jar
+# Copia el archivo JAR compilado desde la etapa de 'build' a la imagen final
+COPY --from=build /app/target/*.jar app.jar
 
-# Exponemos el puerto en el que corre la aplicación
+# Expone el puerto en el que la aplicación escuchará (ajusta según tu aplicación)
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
+# Define el comando para ejecutar la aplicación cuando el contenedor se inicie
 ENTRYPOINT ["java", "-jar", "app.jar"]
