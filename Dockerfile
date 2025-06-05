@@ -17,7 +17,6 @@ RUN mvn clean package -DskipTests
 # --- Segunda etapa: Imagen final para la aplicación en ejecución ---
 # Usamos una imagen base más ligera solo con el JRE (Java Runtime Environment)
 FROM openjdk:17-jre-slim
-
 # Establecemos el directorio de trabajo
 WORKDIR /app
 
