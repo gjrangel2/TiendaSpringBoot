@@ -1,5 +1,5 @@
 # Usamos una imagen base de Java que incluye Maven
-FROM maven:3.9-openjdk-17 AS build
+FROM maven:3.9.6-openjdk-17-slim AS build 
 
 # Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -16,7 +16,8 @@ RUN mvn clean package -DskipTests
 
 # --- Segunda etapa: Imagen final para la aplicación en ejecución ---
 # Usamos una imagen base más ligera solo con el JRE (Java Runtime Environment)
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jre-slim 
+
 # Establecemos el directorio de trabajo
 WORKDIR /app
 
