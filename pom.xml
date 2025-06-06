@@ -78,6 +78,7 @@
                         <artifactId>lombok</artifactId>
                     </path>
                 </annotationProcessorPaths>
+				<release>24</release>
             </configuration>
         </plugin>
         <plugin>
