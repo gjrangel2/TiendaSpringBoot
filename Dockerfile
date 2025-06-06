@@ -1,6 +1,6 @@
 # --- Primera etapa: Construcción de la aplicación (con JDK de Alpine) ---
-# Usamos una imagen de OpenJDK 24 para asegurar la compatibilidad con 'release version 24'
-FROM eclipse-temurin:24-jdk-jammy as build
+# Usamos una imagen de OpenJDK 21 LTS para asegurar la compatibilidad y estabilidad
+FROM eclipse-temurin:21-jdk-jammy as build
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -14,12 +14,11 @@ RUN mvn dependency:resolve
 COPY src ./src
 
 # Limpiamos, empaquetamos y construimos el proyecto sin ejecutar tests
-# Aquí es donde se ejecutaba el comando que daba error
 RUN mvn -Dmaven.test.skip=true clean package
 
 # --- Segunda etapa: Imagen final para la aplicación en ejecución (con JRE de Alpine) ---
-# Usamos una imagen de OpenJDK 24 JRE para el entorno de ejecución ligero
-FROM eclipse-temurin:24-jre-jammy
+# Usamos una imagen de OpenJDK 21 JRE para el entorno de ejecución ligero
+FROM eclipse-temurin:21-jre-jammy
 
 # Establece el directorio de trabajo
 WORKDIR /app
