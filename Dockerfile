@@ -2,6 +2,10 @@
 # Usamos una imagen de OpenJDK 21 LTS para asegurar la compatibilidad y estabilidad
 FROM eclipse-temurin:21-jdk-jammy as build
 
+# Instala Maven en la imagen de construcción
+# 'jammy' es una base Ubuntu/Debian, por lo que usamos apt-get
+RUN apt-get update && apt-get install -y maven
+
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
