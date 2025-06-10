@@ -40,7 +40,7 @@ public class PedidoController {
             // Llama al servicio para crear el pedido, pasando los IDs y el estado desde el DTO
             Pedido nuevoPedido = pedidoService.crearPedido(
                     pedidoRequest.getClienteId(),
-                    pedidoRequest.getProductoIds(),
+                    pedidoRequest.getProductosIds(),
                     pedidoRequest.getEstado()
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido); // Retorna HTTP 201 Created con el pedido creado
