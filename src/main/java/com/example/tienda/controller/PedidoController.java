@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired; // Para inyecció
 import org.springframework.http.HttpStatus; // Para códigos de estado HTTP
 import org.springframework.http.ResponseEntity; // Para la respuesta HTTP
 import org.springframework.web.bind.annotation.*; // Anotaciones de Spring Web
+import org.slf4j.Logger; // Importa el logger
+import org.slf4j.LoggerFactory; // Importa el LoggerFactory
 
 import java.util.List; // Para manejar listas
 
@@ -18,6 +20,7 @@ public class PedidoController {
 
     @Autowired // Inyección del PedidoService
     private PedidoService pedidoService;
+    private static final Logger logger = LoggerFactory.getLogger(PedidoController.class);
 
     // Endpoint para obtener todos los pedidos
     @GetMapping // Mapea GET a "/api/pedidos"
@@ -69,6 +72,29 @@ public class PedidoController {
             return ResponseEntity.noContent().build(); // Retorna HTTP 204 No Content si tiene éxito
         } catch (RuntimeException e) { // Captura si el pedido no se encuentra para eliminar
             return ResponseEntity.notFound().build(); // Retorna HTTP 404 Not Found
+        }
+    }
+
+    @PostMapping("/report/send") // Mapea POST a "/api/pedidos/report/send"
+    public ResponseEntity<String> generateAndSendReport(@RequestBody String email) { // Recibe el email como String JSON
+        try {
+            // Se asume que el correo se envía en el cuerpo de la solicitud como un String JSON "email@example.com"
+            // Por simplicidad, se parseará directamente el String. Para más robustez, usa un DTO Request.
+            String toEmail = email.replaceAll("\"", ""); // Elimina las comillas si se envía como "email"
+            String salesEmail = ""; // Correo de ventas fijo
+
+            logger.info("Solicitud para generar y enviar reporte PDF a: {}", toEmail);
+            // También se enviará al correo de ventas fijo
+            pedidoService.generateAndSendPedidosReport(salesEmail);
+            // Puedes enviar una copia también al 'toEmail' si es diferente
+            if (!toEmail.equalsIgnoreCase(salesEmail)) {
+                 pedidoService.generateAndSendPedidosReport(toEmail); // Enviar una copia al email proporcionado
+            }
+
+            return ResponseEntity.ok("Reporte PDF generado y enviado exitosamente a " + salesEmail + " (y a " + toEmail + " si es diferente).");
+        } catch (Exception e) {
+            logger.error("Error al generar y enviar el reporte PDF: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al generar y enviar el reporte PDF: " + e.getMessage());
         }
     }
 }

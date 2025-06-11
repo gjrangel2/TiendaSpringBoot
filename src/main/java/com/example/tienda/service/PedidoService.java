@@ -10,6 +10,9 @@ import com.example.tienda.repository.ProductoRepository; // Importa repositorio 
 import org.springframework.beans.factory.annotation.Autowired; // Para inyección de dependencias
 import org.springframework.stereotype.Service; // Marca como servicio de Spring
 import org.springframework.transaction.annotation.Transactional; // Para manejar transacciones
+import org.slf4j.Logger; // Importa el logger
+import org.slf4j.LoggerFactory; // Importa el LoggerFactory
+
 
 import java.time.LocalDateTime; // Para la fecha del pedido
 import java.util.List; // Para la lista de productos
@@ -19,6 +22,8 @@ import java.util.ArrayList; // Para crear listas
 @Service // Indica que esta clase es un Servicio de Spring
 public class PedidoService {
 
+    private static final Logger logger = LoggerFactory.getLogger(PedidoService.class);
+
     @Autowired // Inyección de PedidoRepository
     private PedidoRepository pedidoRepository;
 
@@ -27,6 +32,12 @@ public class PedidoService {
 
     @Autowired // Inyección de ProductoRepository
     private ProductoRepository productoRepository;
+
+    @Autowired // Inyecta el nuevo servicio de PDF
+    private PdfGeneratorService pdfGeneratorService;
+    
+    @Autowired // Inyecta el nuevo servicio de Email
+    private EmailService emailService;
 
     // Método para obtener todos los pedidos
     public List<Pedido> obtenerTodosLosPedidos() {
@@ -93,5 +104,31 @@ public class PedidoService {
              throw new RuntimeException("Pedido no encontrado con ID: " + id); // Lanza una excepción si no existe
         }
         pedidoRepository.deleteById(id); // Elimina el pedido
+    }
+
+    @Transactional // Es importante para que Hibernate pueda cargar las relaciones
+    public void generateAndSendPedidosReport(String toEmail) {
+        logger.info("Generando y enviando reporte de pedidos a: {}", toEmail);
+
+        List<Pedido> pedidos = pedidoRepository.findAll(); // Obtener todos los pedidos
+        // Asegurarse de que las colecciones 'productos' y 'cliente' estén inicializadas para el PDF
+        pedidos.forEach(pedido -> {
+            if (pedido.getCliente() != null) {
+                pedido.getCliente().getId(); // Forzar carga del proxy del cliente
+            }
+            if (pedido.getProductos() != null) {
+                pedido.getProductos().size(); // Forzar carga de la colección de productos
+            }
+        });
+
+        byte[] pdfBytes = pdfGeneratorService.generatePedidosPdf(pedidos); // Generar el PDF
+
+        String subject = "Reporte de Pedidos de Tienda";
+        String body = "Estimado/a,<br><br>Adjunto encontrará el reporte de pedidos de la tienda.<br><br>Saludos cordiales,<br>El equipo de la Tienda";
+        String filename = "reporte_pedidos.pdf";
+        String contentType = "application/pdf";
+
+        emailService.sendEmailWithAttachment(toEmail, subject, body, pdfBytes, filename, contentType);
+        logger.info("Reporte de pedidos enviado a: {}", toEmail);
     }
 }
