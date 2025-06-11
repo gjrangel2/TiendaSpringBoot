@@ -16,6 +16,8 @@ import lombok.AllArgsConstructor; // Genera constructor con todos los argumentos
 import java.time.LocalDateTime; // Para manejar fechas y horas
 import java.util.List; // Para manejar colecciones de objetos (productos)
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity // Indica que esta clase es una entidad JPA
 @Table(name = "pedidos") // Nombre de la tabla en la BD
 @Data
@@ -34,7 +36,9 @@ public class Pedido {
     @ManyToOne // Define una relación muchos-a-uno: muchos pedidos pueden pertenecer a un cliente
     @JoinColumn(name = "cliente_id", nullable = false) // Especifica la columna de clave foránea 'cliente_id' en la tabla 'pedidos'
                                                       // nullable = false significa que un pedido siempre debe tener un cliente asociado
-    private Cliente cliente; // El cliente que realizó el pedido
+    
+     @JsonIgnore
+     private Cliente cliente; // El cliente que realizó el pedido
 
     @ManyToMany // Define una relación muchos-a-muchos: un pedido puede tener muchos productos, y un producto puede estar en muchos pedidos
     @JoinTable(
@@ -42,6 +46,7 @@ public class Pedido {
         joinColumns = @JoinColumn(name = "pedido_id"), // Columna en la tabla intermedia que referencia al ID de Pedido
         inverseJoinColumns = @JoinColumn(name = "producto_id") // Columna en la tabla intermedia que referencia al ID de Producto
     )
+     @JsonIgnore
     private List<Producto> productos; // Lista de productos incluidos en este pedido
 
     private Double total; // El monto total del pedido (se podría calcular o establecer directamente)
