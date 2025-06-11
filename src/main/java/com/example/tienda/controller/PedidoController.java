@@ -1,5 +1,6 @@
 // src/main/java/com/example/tienda/controller/PedidoController.java
 package com.example.tienda.controller; // Paquete de esta clase
+import com.example.tienda.dto.EmailRequestDTO; // Importa el nuevo DTO
 
 import com.example.tienda.dto.PedidoRequestDTO; // Importa el DTO para la solicitud de creación de pedido
 import com.example.tienda.model.Pedido; // Importa la entidad Pedido
@@ -76,12 +77,10 @@ public class PedidoController {
     }
 
     @PostMapping("/report/send") // Mapea POST a "/api/pedidos/report/send"
-    public ResponseEntity<String> generateAndSendReport(@RequestBody String email) { // Recibe el email como String JSON
+    public ResponseEntity<String> generateAndSendReport(@RequestBody EmailRequestDTO emailRequestDTO) { // Recibe el email como String JSON
         try {
-            // Se asume que el correo se envía en el cuerpo de la solicitud como un String JSON "email@example.com"
-            // Por simplicidad, se parseará directamente el String. Para más robustez, usa un DTO Request.
-            String toEmail = email.replaceAll("\"", ""); // Elimina las comillas si se envía como "email"
-            String salesEmail = ""; // Correo de ventas fijo
+           String toEmail = emailRequestDTO.getEmail(); // <--- MODIFICACIÓN AQUÍ: Obtiene el email del DTO
+            String salesEmail = "fotosrangel22@gmail.com";
 
             logger.info("Solicitud para generar y enviar reporte PDF a: {}", toEmail);
             // También se enviará al correo de ventas fijo
