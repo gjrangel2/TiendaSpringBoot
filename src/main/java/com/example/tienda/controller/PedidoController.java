@@ -4,8 +4,6 @@ import com.example.tienda.dto.EmailRequestDTO; // Importa el nuevo DTO
 
 import com.example.tienda.dto.PedidoRequestDTO; // Importa el DTO para la solicitud de creación de pedido
 import com.example.tienda.model.Pedido; // Importa la entidad Pedido
-import com.example.tienda.service.ClienteProductoService;
-import com.example.tienda.service.EmailService;
 import com.example.tienda.service.PedidoService; // Importa el servicio de Pedido
 import org.springframework.beans.factory.annotation.Autowired; // Para inyección de dependencias
 import org.springframework.http.HttpStatus; // Para códigos de estado HTTP
@@ -23,8 +21,6 @@ public class PedidoController {
 
     @Autowired // Inyección del PedidoService
     private PedidoService pedidoService;
-    @Autowired
-    private EmailService emailService;
     private static final Logger logger = LoggerFactory.getLogger(PedidoController.class);
 
     // Endpoint para obtener todos los pedidos
@@ -105,16 +101,12 @@ public class PedidoController {
     public ResponseEntity<?> generateAndSendClientesProductosPdf(@RequestBody EmailRequestDTO emailRequestDTO) {
         try {
             String toEmail = emailRequestDTO.getEmail();
-            String subject = "Listado de Clientes y Productos";
-            String body = "Estimado/a,<br><br>Adjunto encontrará el listado de clientes y productos.<br><br>Saludos cordiales,<br>El equipo de la Tienda";
             
-            
-
-            byte[] pdfBytes = ClienteProductoService.generateClientesProductosPdf();
-            String filename = "clientes_productos.pdf";
-            String contentType = "application/pdf";
-    
-            emailService.sendEmailWithAttachment(toEmail, subject, body, pdfBytes, filename, contentType);
+            logger.info("Solicitud para generar y enviar reporte PDF a: {}", toEmail);
+            // También se enviará al correo de ventas fijo
+            pedidoService.generateAndSendClientesPedidosReport(toEmail);
+            // Puedes enviar una copia también al 'toEmail' si es diferente
+         
             return ResponseEntity.ok("PDF generado y enviado exitosamente a " + toEmail);
         } catch (Exception e) {
             logger.error("Error al generar y enviar el PDF: {}", e.getMessage(), e);
