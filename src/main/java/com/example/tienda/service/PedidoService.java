@@ -131,4 +131,31 @@ public class PedidoService {
         emailService.sendEmailWithAttachment(toEmail, subject, body, pdfBytes, filename, contentType);
         logger.info("Reporte de pedidos enviado a: {}", toEmail);
     }
+
+  @Transactional // Es importante para que Hibernate pueda cargar las relaciones
+    public void generateAndSendClientesPedidosReport(String toEmail) {
+        logger.info("Generando y enviando reporte de Clientes y Productos a: {}", toEmail);
+
+        List<Pedido> pedidos = pedidoRepository.findAll(); // Obtener todos los pedidos
+        // Asegurarse de que las colecciones 'productos' y 'cliente' estén inicializadas para el PDF
+        pedidos.forEach(pedido -> {
+            if (pedido.getCliente() != null) {
+                pedido.getCliente().getId(); // Forzar carga del proxy del cliente
+            }
+            if (pedido.getProductos() != null) {
+                pedido.getProductos().size(); // Forzar carga de la colección de productos
+            }
+        });
+
+        byte[] pdfBytes = pdfGeneratorService.generatePedidosPdf(pedidos); // Generar el PDF
+
+        String subject = "Reporte de Clientes y Productos de Tienda";
+        String body = "Estimado/a,<br><br>Adjunto encontrará el reporte de clientes y productos de la tienda.<br><br>Saludos cordiales,<br>El equipo de la Tienda";
+        String filename = "reporte_clientesypedidos.pdf";
+        String contentType = "application/pdf";
+
+        emailService.sendEmailWithAttachment(toEmail, subject, body, pdfBytes, filename, contentType);
+        logger.info("Reporte de pedidos enviado a: {}", toEmail);
+    }
+
 }
