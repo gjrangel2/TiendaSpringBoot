@@ -1,6 +1,7 @@
 // src/main/java/com/example/tienda/model/Cliente.java
 package com.example.tienda.model; // Define el paquete donde se encuentra esta clase
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity; // Importa la anotación Entity para marcar esta clase como una entidad JPA
 import jakarta.persistence.GeneratedValue; // Importa la anotación GeneratedValue para la generación automática de IDs
 import jakarta.persistence.GenerationType; // Importa el tipo de estrategia de generación de IDs
@@ -21,7 +22,10 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Configura la generación automática del ID (autoincremental por la BD)
     private Long id; // Identificador único para el cliente
 
+    @Column(nullable = false)
     private String nombre; // Nombre del cliente
+    @Column(nullable = false)
     private String apellido; // Apellido del cliente
+    @Column(nullable = false)
     private String email; // Email del cliente (podría tener validaciones adicionales o ser único)
 }

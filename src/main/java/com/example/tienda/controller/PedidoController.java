@@ -53,7 +53,7 @@ public class PedidoController {
         }
     }
 
-    // Endpoint para actualizar el estado de un pedido
+    //Endpoint para actualizar el estado de un pedido
     @PutMapping("/{id}/estado") // Mapea PUT a "/api/pedidos/{id}/estado"
     public ResponseEntity<Pedido> actualizarEstadoPedido(@PathVariable Long id, @RequestBody String nuevoEstado) {
         // El cuerpo de la solicitud solo contendrá el nuevo estado como un String JSON, ej: "ENVIADO"

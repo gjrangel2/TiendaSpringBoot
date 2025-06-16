@@ -13,7 +13,7 @@ package com.example.tienda.config; // O el paquete que hayas elegido
             registry.addMapping("/**") // Aplica a todos los endpoints de tu API
                     // **MUY IMPORTANTE**: Reemplaza esto con la URL REAL de tu frontend Angular en Render.
                     // Si tienes múltiples dominios de frontend (ej. staging y producción), puedes listarlos aquí.
-                    .allowedOrigins("https://tiendaspringbootfrontend.onrender.com", "http://localhost:4200")
+                    .allowedOrigins("http://localhost:4200")
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Métodos permitidos
                     .allowedHeaders("*") // Permite todos los encabezados
                     .allowCredentials(true) // Si usas credenciales (cookies, tokens de auth), habilita esto
