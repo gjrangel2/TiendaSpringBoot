@@ -9,8 +9,7 @@ Este es el repositorio del **backend** para la aplicación web de una tienda, de
 ## 🚀 Despliegue
 
 El proyecto está desplegado en **Render.com** utilizando un archivo `Dockerfile`, ya que el entorno no detectaba automáticamente el tipo de aplicación. Gracias a Docker, se logró un despliegue exitoso del backend.
-
-![Despliegue](C:\Users\inger\OneDrive\Escritorio\cursos SW\PROYECTO FULLSTACK TIENDA\render.jpg)
+![render](https://github.com/user-attachments/assets/1ef5103e-9aee-4a07-bac7-215d1e5a1f06)
 
 ---
 
