@@ -5,42 +5,7 @@ Este es el repositorio del **backend** para la aplicación web de una tienda tip
 > 🔗 [Repositorio del Frontend](https://github.com/gjrangel2/TiendaSpringBootFrontend)
 ---
 ## Estructura del proyecto
-src
-└── main
-    ├── java
-    │   └── com
-    │       └── example
-    │           └── tienda
-    │               ├── config
-    │               │   └── CorsConfig.java
-    │               ├── controller
-    │               │   ├── ClienteController.java
-    │               │   ├── PedidoController.java
-    │               │   └── ProductoController.java
-    │               ├── dto
-    │               │   ├── EmailRequestDTO.java
-    │               │   ├── PedidoRequestDTO.java
-    │               │   └── ReporteRequestDTO.java
-    │               ├── model
-    │               │   ├── Cliente.java
-    │               │   ├── Pedido.java
-    │               │   └── Producto.java
-    │               ├── repository
-    │               │   ├── ClienteRepository.java
-    │               │   ├── PedidoRepository.java
-    │               │   └── ProductoRepository.java
-    │               ├── service
-    │               │   ├── ClienteService.java
-    │               │   ├── EmailService.java
-    │               │   ├── PdfGeneratorService.java
-    │               │   ├── PedidoService.java
-    │               │   └── ProductoService.java
-    │               └── TiendaApplication.java
-    ├── resources
-    │   ├── static
-    │   ├── templates
-    │   └── application.properties
-└── test
+![estructura](https://github.com/user-attachments/assets/65045c83-b872-4c8e-9987-ac5d8ca4a0ae)
 
 ---
 ## 🚀 Despliegue
@@ -58,10 +23,11 @@ El proyecto está desplegado en la capa gratuita de **Render.com** utilizando un
 - Spring Data JPA
 - Spring Boot Mail
 - Maven
-- MySQL o H2
+- PostgreSQL
 - Docker
 - Render.com
 - Springdoc OpenAPI (Swagger)
+- GitHub
 ---
 
 ## 📄 Documentación de la API
@@ -69,6 +35,8 @@ El proyecto está desplegado en la capa gratuita de **Render.com** utilizando un
 Una vez ejecutado localmente o en producción, accede a la documentación interactiva de la API:
 http://localhost:8080/swagger-ui/index.html
 ![docs1](https://github.com/user-attachments/assets/dd7e3719-2e2c-45af-a564-ed289b9f4004)
+![docs2](https://github.com/user-attachments/assets/f7922658-8936-47a3-a459-682664009c5e)
+![docs3](https://github.com/user-attachments/assets/9ae5b7ed-9dcc-4974-9ec8-b7af69087657)
 
 
 ---
