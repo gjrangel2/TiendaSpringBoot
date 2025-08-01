@@ -64,7 +64,9 @@ docker build -t tienda-backend .
 
 # Ejecutar contenedor
 docker run -p 8080:8080 tienda-backend
+```
+------------------------------------------------------------------------
 
-📬3104441243
-Desarrollado por Geyson Rangel
-📧 [ingerangel22@gmail.com]
+Desarrollado por **Geyson Rangel**
+
+[LinkedIn](https://www.linkedin.com/in/geyson-jair-rangel-ortega-79a022233/) 
