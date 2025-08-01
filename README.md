@@ -65,8 +65,14 @@ docker build -t tienda-backend .
 # Ejecutar contenedor
 docker run -p 8080:8080 tienda-backend
 ```
-------------------------------------------------------------------------
 
+
+----------------------------------------------------------------------------------------------
+
+**NOTA: en caso de que el link de despligue no funcione contactar a 3104441243, ya que al ser una capa gratuita de RENDER, en ocasiones se detiene y hay que reiniciar el deploy**
+
+
+----------------------------------------------------------------------------------------------
 Desarrollado por **Geyson Rangel**
 
 [LinkedIn](https://www.linkedin.com/in/geyson-jair-rangel-ortega-79a022233/) 
