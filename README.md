@@ -69,7 +69,7 @@ docker run -p 8080:8080 tienda-backend
 
 ----------------------------------------------------------------------------------------------
 
-**NOTA: en caso de que el link de despligue no funcione contactar a 3104441243, ya que al ser una capa gratuita de RENDER, en ocasiones se detiene y hay que reiniciar el deploy**
+**NOTA: en caso de que el link de despliegue no funcione contactar a 3104441243, ya que al ser una capa gratuita de RENDER, en ocasiones se detiene y hay que reiniciar el deploy**
 
 
 ----------------------------------------------------------------------------------------------
